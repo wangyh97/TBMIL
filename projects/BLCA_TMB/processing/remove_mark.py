@@ -1,11 +1,10 @@
 import sys
 import os
-lib_path = ['/home/wangyh/uro_biomarker/python-wsi-preprocessing/deephistopath/wsi','/home/wangyh/uro_biomarker/python-wsi-preprocessing']
+lib_path = ['uro_biomarker/python-wsi-preprocessing/deephistopath/wsi','uro_biomarker/python-wsi-preprocessing']
 for i in lib_path:
     sys.path.append(i)
 
-openslide_path = {'desktop':'D:/edge下载/openslide-win64-20220811/bin',
-                'laptop':'E:/openslide-win64-20171122/bin'}
+openslide_path = {'openslide-win64-20171122/bin'}
 if hasattr(os,'add_dll_directory'):
     for i in openslide_path.values():
         if Path(i).exists():
@@ -57,7 +56,7 @@ def remove_mark_tile(pen_marks,scale:['5X','10X','20X','40X'],tissue_type:['T','
     count = 0
     for index in pen_marks:
         uuid = df['dir_uuid'][index]
-        CN_patches_path = glob.glob(f'/mnt/wangyh/CN_patches/*/{uuid}/{scale}/{tissue_type}*')
+        CN_patches_path = glob.glob(f'CN_patches/*/{uuid}/{scale}/{tissue_type}*')
         count += len(CN_patches_path)
         CN_patches.append(CN_patches_path)
     for obj in CN_patches:
@@ -76,8 +75,8 @@ def remove_mark_tile(pen_marks,scale:['5X','10X','20X','40X'],tissue_type:['T','
 
 df = pd.read_csv('../config/full.csv')
 
-thumbnails = glob.glob('/mnt/wangyh/svs_thumb_img/*')
-imgs = glob.glob('/mnt/wangyh/svs_img/*')
+thumbnails = glob.glob('svs_thumb_img/*')
+imgs = glob.glob('svs_img/*')
 
 title=[] 
 for i in thumbnails:

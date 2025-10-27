@@ -308,7 +308,7 @@ def extract_patches(levels,scales,tile_path,slide_tiles,tumor_tiles,tumor=True):
 
 
 if __name__ == '__main__':
-    working_dir = '/GPUFS/sysu_jhluo_1/wangyh/data/'
+    working_dir = 'data/'
     os.chdir(working_dir)
 
     # TCGA 388
@@ -332,9 +332,6 @@ if __name__ == '__main__':
         elif opt in ['-i']: ## 用INDEX 表示每个chunk的序数
             INDEX = int(arg)  #x后面承接一个数值,表示index
 
-    # all_paths = [zsyy_path,pufh_path,sysu_path,tcga_path]
-    # all_patch_path = [f"Pathology/ZSYY_cases_Patch_{TILE_SIZE}",f"Pathology/PUFH_cases_Patch_{TILE_SIZE}",f"Pathology/SYSUCC_cases_Patch_{TILE_SIZE}",f"Pathology/TCGA_cases_Patch_{TILE_SIZE}"]
-
 
     OVERLAP =0
     LIMIT = False
@@ -344,13 +341,13 @@ if __name__ == '__main__':
     TILE_SIZE = 512
 
     #TODO:将svspath及svslabels存放在一个csv中
-    df = pd.read_csv('/GPUFS/sysu_jhluo_1/wangyh/project/BLCA_TMB/config/full.csv')   # well marked slides & slides with label的交集
+    df = pd.read_csv('project/BLCA_TMB/config/full.csv')   # well marked slides & slides with label的交集
     svs_paths = df['svs_paths']
     labels = df['TMB_H/L']
     uuid = df['dir_uuid']
 
     svs_paths = svs_paths[n*(INDEX-1):n*INDEX]
-    patch_path = "/GPUFS/sysu_jhluo_1/wangyh/data/raw_patches"
+    patch_path = "data/raw_patches"
 
 
 

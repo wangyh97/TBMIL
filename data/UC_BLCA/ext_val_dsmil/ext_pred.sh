@@ -1,2 +1,0 @@
-nohup python external_pred.py --scale 10 --extractor pretrained_resnet18 --weight_path /GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder_threshold_80/best_ckpt/best_loss.pth --save_name best_loss_10X_TCGA_pred
-nohup python external_pred.py --scale 10 --extractor pretrained_resnet18 --weight_path /GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder_threshold_80/best_ckpt/best_score.pth --save_name best_score_10X_TCGA_pred

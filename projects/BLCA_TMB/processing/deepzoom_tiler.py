@@ -369,12 +369,12 @@ if __name__ == '__main__':
 
     # set input & output paths
     ## input paths
-    all_slides = pd.read_csv('/GPUFS/sysu_jhluo_1/wangyh/project/BLCA_TMB/config/full.csv')['svs_paths'][3:4]
+    all_slides = pd.read_csv('project/BLCA_TMB/config/full.csv')['svs_paths'][3:4]
     ## output paths
     if len(levels) == 2:
-        output_patches = os.path.join('/GPUFS/sysu_jhluo_1/wangyh/data/raw_patches/size_224', 'pyramid')
+        output_patches = os.path.join('data/raw_patches/size_224', 'pyramid')
     else:
-        output_patches = os.path.join('/GPUFS/sysu_jhluo_1/wangyh/data/raw_patches/size_224', 'single')
+        output_patches = os.path.join('data/raw_patches/size_224', 'single')
     if not os.path.exists(output_patches):
         os.makedirs(output_patches)
 

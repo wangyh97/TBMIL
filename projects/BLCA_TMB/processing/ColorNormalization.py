@@ -184,26 +184,25 @@ logger.info(f'logger init: {description}')
 
 os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
 
-# cases = pd.read_csv('/GPUFS/sysu_jhluo_1/wangyh/project/BLCA_TMB/config/patch_info.csv')['dir_uuid'] # 包含uuid
 
 cases = np.load('unCNed_uuids.npy')
-# tile_dict = np.load('/GPUFS/sysu_jhluo_1/wangyh/data/raw_patches/size_224/size_224_tiles_for_CN.npy',allow_pickle=True)
+
 
 '''
 将cases转化为Path对象后使用parent.name获取label并创建文件路径
 '''
 
-cn_path = '/GPUFS/sysu_jhluo_1/wangyh/data/CN_patches/size_224'
+cn_path = 'data/CN_patches/size_224'
 
 cases_select = cases[args.size*(args.batch-1):args.size*args.batch]
 cases_select = [
-#     '0c4c20c0-a2c5-42ba-b5e1-04a99e06cfe5',
+
     '28ebbb69-6d0c-43aa-af53-19d268eaf6bd']
 
 mempool = cp.get_default_memory_pool()
 pinned_mempool = cp.get_default_pinned_memory_pool()
 
-template_file = np.load('/GPUFS/sysu_jhluo_1/wangyh/data/CN_patches/CN_template.npy')
+template_file = np.load('data/CN_patches/CN_template.npy')
 normalizer = Normalizer()
 normalizer.fit(template_file)
 
@@ -212,7 +211,7 @@ scales = ['10X','20X']
 
 for uuid in tqdm(cases_select):
     for scale in scales:
-        case = f'/GPUFS/sysu_jhluo_1/wangyh/data/raw_patches/size_224/*/{uuid}/' + f'{scale}/*'
+        case = f'data/raw_patches/size_224/*/{uuid}/' + f'{scale}/*'
         tiles = glob.glob(case)
         print(len(tiles))
         
@@ -223,7 +222,7 @@ for uuid in tqdm(cases_select):
             try:
                 for tile in tiles:
                     try:
-                        tile_name = str(tile).replace('/GPUFS/sysu_jhluo_1/wangyh/data/raw_patches/size_224',cn_path)  #transformed tile的存放路径
+                        tile_name = str(tile).replace('data/raw_patches/size_224',cn_path)  #transformed tile的存放路径
                         if not Path(tile_name).exists():
                             if not Path(tile_name).parent.exists():
                                 Path(tile_name).parent.mkdir(parents=True)

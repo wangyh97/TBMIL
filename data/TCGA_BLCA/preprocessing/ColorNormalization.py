@@ -180,7 +180,7 @@ logger.info(f'logger init: {description}')
 
 os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
 
-cases = list(Path('/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder/raw_patches/size512').rglob('*.h5'))
+cases = list(Path('/data/TCGA_bladder/raw_patches/size512').rglob('*.h5'))
 SIZE = 512
 
 cases_select = cases[args.size*(args.batch-1):args.size*args.batch]
@@ -188,7 +188,7 @@ cases_select = cases[args.size*(args.batch-1):args.size*args.batch]
 mempool = cp.get_default_memory_pool()
 pinned_mempool = cp.get_default_pinned_memory_pool()
 
-template_file = np.load('/GPUFS/sysu_jhluo_1/wangyh/data/CN_patches/CN_template.npy')
+template_file = np.load('data/CN_patches/CN_template.npy')
 normalizer = Normalizer()
 normalizer.fit(template_file)
 
@@ -201,7 +201,7 @@ scales = ['10X','20X']
 
 for case in tqdm(cases_select):
     # 创建对应的CN文件路径
-    cn_tiles_path = str(case).replace('/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder/raw_patches/','/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder/CN_patches/') #TODO
+    cn_tiles_path = str(case).replace('data/TCGA_bladder/raw_patches/','data/TCGA_bladder/CN_patches/') #TODO
     cn_folder_path = Path(cn_tiles_path).parent
     cn_folder_path.mkdir(parents=True, exist_ok=True)
     
@@ -255,7 +255,7 @@ for case in tqdm(cases_select):
             unnormed_cases['invalid_file'].append(case)
             continue
 
-with open(f'/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder/CN_patches/unnormed_{args.batch}.pkl','wb') as f:
+with open(f'data/TCGA_bladder/CN_patches/unnormed_{args.batch}.pkl','wb') as f:
     pickle.dump(unnormed_cases,f)
 
 

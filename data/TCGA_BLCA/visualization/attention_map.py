@@ -20,7 +20,7 @@ from skimage import exposure, io, img_as_ubyte, transform
 import warnings
 from pathlib import Path
 
-with open('/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder/misc_files/uuid_SlideID_TMB.pkl','rb') as f:
+with open('data/TCGA_bladder/misc_files/uuid_SlideID_TMB.pkl','rb') as f:
     uuid_slideId_TMB = pickle.load(f)
     slideid_label_dict = dict(zip(uuid_slideId_TMB['slide_id'],uuid_slideId_TMB['TMB']))
     uuid_slideId_dict = dict(zip(uuid_slideId_TMB['uuid'],uuid_slideId_TMB['slide_id']))
@@ -126,10 +126,9 @@ def test(args, bags, milnet):
             if len(bag_prediction.shape)==0 or len(bag_prediction.shape)==1:
                 bag_prediction = np.atleast_1d(bag_prediction)
             benign = True
-#             num_pos_classes = 0 # 给多分类用的
-#             for c in range(args.num_classes):
+
             attentions = A[:, 1].cpu().numpy()
-            max_indices = np.argsort(attentions)[-min(10,len(attentions)):]
+            max_indices = np.argsort(attentions)[min(10,len(attentions)):]
             highly_attented_pos = [pos_arr[i] for i in max_indices]
             colored_tiles = np.matmul(attentions[:, None], colors[1][None, :])
             if bag_prediction[1] >= threshold[1]: 
@@ -193,13 +192,13 @@ if __name__ == '__main__':
     milnet.eval()
 
     # load data
-    bags_path = f'/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder_threshold_80/features/size512/{args.extractor}/{args.scale}X_features.pkl'
+    bags_path = f'data/TCGA_bladder_threshold_80/features/size512/{args.extractor}/{args.scale}X_features.pkl'
     with open(bags_path,'rb') as f:
         bags = pickle.load(f) # bags{dict}: 'slide_id':{'features','coords'}
         
     # create path for saving
-    map_path = os.path.join('/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder_threshold_80/visualization',args.map_path,Path(args.weight_path).stem)
-    score_path = os.path.join('/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder_threshold_80/visualization',args.score_path,Path(args.weight_path).stem)
+    map_path = os.path.join('data/TCGA_bladder_threshold_80/visualization',args.map_path,Path(args.weight_path).stem)
+    score_path = os.path.join('data/TCGA_bladder_threshold_80/visualization',args.score_path,Path(args.weight_path).stem)
     os.makedirs(map_path, exist_ok=True)
     if args.export_scores:
         os.makedirs(score_path, exist_ok=True)

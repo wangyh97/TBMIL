@@ -18,11 +18,11 @@ import extract_patches_nonT as ep
 
 
 def slide_parser(uuid):
-    folder_path = f'/GPUFS/sysu_jhluo_1/wangyh/data/slides/TCGA_bladder/TCGA_bladder/{uuid}'
+    folder_path = f'data/slides/TCGA_bladder/TCGA_bladder/{uuid}'
     try:
         slide_path = glob.glob(folder_path + '/*.svs')
         xml_path = glob.glob(folder_path + '/*.xml')
-        patch_path = f'/GPUFS/sysu_jhluo_1/wangyh/data/raw_patches/TCGA_bladder/{uuid}'
+        patch_path = f'data/raw_patches/TCGA_bladder/{uuid}'
         Path(patch_path).mkdir(parents=True,exist_ok=True)
         return slide_path[0], xml_path[0],patch_path
     except Exception as e:
@@ -84,23 +84,15 @@ def process_wsi(uuid):
 # generate unit test case,uuids from TCGA bladder cancer
 
 if __name__ == '__main__':
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('--start',type=int,default=0,help='starting index in every block')
-#     parser.add_argument('--chunksize',type=int,default = 26)
-#     args = parser.parse_args()
-    
-#     uuids = pd.read_csv('compare.csv')['dir_uuid'][323:]
     uuids = ['474e93f2-2ee8-478d-9a87-ab561286535f', 'f9cee804-1f30-4a97-b5ae-55cf24ad220e', 'f4ca3ddd-dc53-4ab0-b55b-942603b64e57', '7a0697d9-18db-4e52-b243-be06879a9944']
     print(uuids)
     
     N = len(uuids)
     print(f'{N} slides in total')
     
-    thumbnail_path = '/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder/thumbnails'
+    thumbnail_path = 'data/TCGA_bladder/thumbnails'
     Path(thumbnail_path).mkdir(parents=True,exist_ok=True)
-    
-#     uuids_toParse = uuids[args.start*args.chunksize:(args.start+1)*args.chunksize]
-#     print(f'processing slides{args.start*args.chunksize} to {(args.start+1)*args.chunksize}')
+
     for uuid in tqdm(uuids):
         try:
             get_wsi_with_mark(uuid,thumbnail_path,cmap='gray')
@@ -108,9 +100,6 @@ if __name__ == '__main__':
         except Exception as e:
             print(f"{uuid} error as {e}")
 
-#     pool = Pool(os.cpu_count() - 1) 
-#     for _ in tqdm(pool.imap(process_wsi, uuids), total=len(uuids)):   # 保证所有进程都被处理后再进行下一步，这一步很关键
-#         pass
 
     print('all done')
 

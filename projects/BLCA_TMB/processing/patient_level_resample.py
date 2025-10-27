@@ -57,22 +57,7 @@ def load_and_transform_image(img_path):
             print(f'Cannot transform image {img_path}: {e}')
             return None
         return img
-    
-# def resample(tup):
-#     img,lab = tup
-#     images_stacked = list(img)
-#     label_list_seg = list(lab)
-    
-#     smoteenn = SMOTETomek(sampling_strategy='not majority',random_state = 10)
-#     resampled_images, resampled_labels = smoteenn.fit_resample(images_stacked, label_list_seg)
-#     return resampled_images, resampled_labels
 
-# def batch_resample(images_stacked,label_list):
-#     for i in range(images_stacked.shape[0]//1000+1):
-#         if i != range(images_stacked.shape[0]//1000+1)[-1]:
-#             yield images_stacked[i*1000:(i+1)*1000],label_list[i*1000:(i+1)*1000]
-#         elif i == images_stacked.shape[0]//1000:
-#             yield images_stacked[i*1000:],label_list[i*1000:]
             
 
 
@@ -104,26 +89,10 @@ if __name__ == '__main__':
     del images_np
     del images_2d
     gc.collect()
-    
-    
-    #resampling the images
-#     resampled_images = []
-#     resampled_labels = []
-#     batch_iter = batch_resample(images_stacked,label_list)
-#     batch_list = [i for i in batch_iter]
-    
+  
     
     tock = time.time()
-#     with Pool() as p:
-#         for batch_resampled_images,batch_resampled_labels in p.imap(resample,tqdm(batch_list)):
-#             resampled_images.append(batch_resampled_images)
-#             resampled_labels.extend(batch_resampled_labels)
-#     p.close()
-#     p.join()
 
-#     for batch_resampled_images,batch_resampled_labels in list(map(resample,tqdm(batch_list))):
-#         resampled_images.append(batch_resampled_images)
-#         resampled_labels.extend(batch_resampled_labels)
     smoteenn = SMOTETomek(sampling_strategy='not majority',random_state = 10)
     resampled_images, resampled_labels = smoteenn.fit_resample(images_stacked, label_list)
     print(f'resampling consumes{time.time()-tock}s',end='\n')

@@ -20,7 +20,7 @@ from skimage import exposure, io, img_as_ubyte, transform
 import warnings
 from pathlib import Path
 
-df = pd.read_csv('/GPUFS/sysu_jhluo_1/wangyh/data/FAH_BLCA/FAH_slide_label.csv')
+df = pd.read_csv('data/FAH_BLCA/FAH_slide_label.csv')
 sp_label_dict = dict(zip(df['Sample-Pair'],df['TMB_status']))
 
 def set_seed(seed=10):
@@ -165,7 +165,7 @@ if __name__ == '__main__':
     milnet.eval()
 
     # load data
-    bags_path = f'/GPUFS/sysu_jhluo_1/wangyh/data/FAH_BLCA/features/size512/{args.extractor}/{args.scale}X_features.pkl'
+    bags_path = f'data/FAH_BLCA/features/size512/{args.extractor}/{args.scale}X_features.pkl'
     with open(bags_path,'rb') as f:
         bags = pickle.load(f) # bags{dict}: 'slide_id':{'features','coords'}
 

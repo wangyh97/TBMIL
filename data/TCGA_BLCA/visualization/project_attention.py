@@ -20,12 +20,12 @@ def get_DZG(slide,tile_size=512,overlap=False,limit_bounds=False,slide_tile = Fa
     return dzg
 
 def get_thumbnail(slide_id):
-    with open('/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder/misc_files/uuid_SlideID_TMB.pkl','rb') as f:
+    with open('data/TCGA_bladder/misc_files/uuid_SlideID_TMB.pkl','rb') as f:
         uuid_slideId_TMB = pickle.load(f)
         slideId_uuid_dict = dict(zip(uuid_slideId_TMB['slide_id'],uuid_slideId_TMB['uuid']))
 
         uuid = slideId_uuid_dict[slide_id]
-    thumbnail_path = os.path.join('/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder/thumbnails',uuid + '.h5')
+    thumbnail_path = os.path.join('data/TCGA_bladder/thumbnails',uuid + '.h5')
     with h5py.File(thumbnail_path,'r') as f:
         thumbnail = f['thumbnail'][:]
     return thumbnail
@@ -82,14 +82,14 @@ def main():
     scales = ['10X','20X']
     TILE_SIZE = 512
     
-    attention_map_folder = Path('/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder_threshold_80/visualization/attention_map/best_score')
+    attention_map_folder = Path('data/TCGA_bladder_threshold_80/visualization/attention_map/best_score')
     attention_maps = glob.glob(os.path.join(attention_map_folder,'*.pkl'))
     slide_ids = [Path(i).stem for i in attention_maps]
     
-    slide_folder = '/GPUFS/sysu_jhluo_1/wangyh/data/slides/TCGA_bladder/TCGA_bladder/'
+    slide_folder = 'data/slides/TCGA_bladder/TCGA_bladder/'
     slide_paths = [glob.glob(os.path.join(slide_folder,f'*/{slide_id}.svs'))[0] for slide_id in slide_ids]
 
-    save_folder = '/GPUFS/sysu_jhluo_1/wangyh/data/TCGA_bladder_threshold_80/visualization/projected_attention_maps'
+    save_folder = 'data/TCGA_bladder_threshold_80/visualization/projected_attention_maps'
 
     for slide_path in slide_paths:
         slide_id = Path(slide_path).stem
